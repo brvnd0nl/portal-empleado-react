@@ -1,0 +1,44 @@
+.contenedor{
+    position: relative;
+}
+
+.fondoPantalla{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    background-color: #ededed;
+}
+
+.Login{
+    position: relative;
+    width: 380px;
+    margin: 110px auto;
+    padding: 20px 40px 40px;
+    text-align: center;
+    background: #ededed;
+    background: rgba(247,247,247,1);
+    border-radius: 19px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3);
+}
+
+.footer{
+    width: 8%;
+    padding-bottom: 5px;
+}
+
+@media screen and (max-width:767px ) {
+    .Login {
+        width: 280px;
+        margin: 60px auto;
+        padding: 20px 40px 40px;
+        text-align: center;
+        background: #ededed;
+        background: rgba(247,247,247,1);
+        border-radius: 19px;
+        -moz-border-radius: 19px;
+        -webkit-border-radius: 19px;
+        box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3);
+    }
+}
