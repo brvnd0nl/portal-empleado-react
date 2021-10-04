@@ -1,75 +1,65 @@
 import * as fs from 'fs-web';
 import React, {useCallback, useState} from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import '../layouts/css/login.css'
 
 const Login = () => {
     const history = useHistory();
-    const [usuario, guardarUsuario] = useState('');
-    const [contraseña, guardarContraseña] = useState('');
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);    
+    const abreviaturaEmpresa = query.get("abr");
+    const [datosUsuario, guardarDatosUsuario] = useState({
+        usuario: '',
+        contrasenia: '',
+        abreviaturaEmpresa: abreviaturaEmpresa != null && abreviaturaEmpresa != '' ? abreviaturaEmpresa : '',
+    });
 
-    const handleOnClick = useCallback(e => {
+
+    const guardarEstado = e => {
+        guardarDatosUsuario({
+            ...datosUsuario,
+            [e.target.name] : e.target.value,
+        });
+    };
+
+    const handleOnClick = e => {
         e.preventDefault();
         console.log('datos ',usuario,' ',contraseña);
         if(usuario.trim() !== '' && contraseña.trim() !== ''){
-            history.push('/Inicio');
+            history.push(`/Inicio?abr=${abreviaturaEmpresa}`);
         }else{
             alert('campos vacios. Ingrese sus credenciales');
         }
-    }, [history]);
-    function fileExists(abrEmpresa) {
-        /* var path = `../layouts/img/logo${abrEmpresa}.png`;
-        debugger;
-        fs.readdir(require(path))
-        .then(function(){
-            return true;
-        })
-        .catch(function(e){
-            console.log(e);
-            return false;
-        }); */
-
-        return true;
-    }
-
-    const validarIngreso = () => {
-
     };
 
     return (
         <>            
-            {fileExists("APL") ? (
-                <div className="contenedor">
+            {abreviaturaEmpresa != null ? (
+                <form className="contenedor" onSubmit={() => handleOnClick()}>
                     <div className="fondoPantalla"> 
 
                     </div>
                     <div className="Login">
                         <div className="mb-4 p-3">
-                            <img alt="Logo Sorttime" className="img-fluid" src={require('../layouts/img/logoAPL.png')} />
+                            <img alt="Logo Sorttime" className="img-fluid" src={require(`../layouts/img/logo${abreviaturaEmpresa}.png`)} />
                         </div>
                         <div className="form-floating mb-1">
-                            <input type="number" className="form-control" id="TXT_sUsuario" placeholder="Usuario" onChange={e => {
-                                console.log('guardando u... ', e.target.value)
-                                guardarUsuario(e.target.value)} } value={usuario} />
+                            <input type="number" className="form-control" id="TXT_sUsuario" name="usuario" placeholder="Usuario" onChange={e => guardarEstado(e)} value={datosUsuario.usuario} />
                             <label htmlFor="TXT_sUsuario">Usuario</label>
                         </div>
                         <div className="form-floating mb-4">
-                            <input type="password" className="form-control" id="TXT_sContrasena" placeholder="Contraseña" onChange={e => {
-                                console.log('guardando c... ', e.target.value)
-                                guardarContraseña(e.target.value)} } value={contraseña} />
+                            <input type="password" className="form-control" id="TXT_sContrasena" name="contrasenia" placeholder="Contraseña" onChange={e => guardarEstado(e) } value={datosUsuario.contrasenia} />
                             <label htmlFor="TXT_sContrasena">Contraseña</label>
                         </div>
 
                         <div className="form-floating mb-4">
-                            <button type="submit" className="btn btn-primary" onClick={e => handleOnClick(e)}>Ingresar</button>
+                            <button type="submit" className="btn btn-primary">Ingresar</button>
                         </div>
                         <div className="form-floating mb-4">
                             <div className="row">
-                                <div className="col-auto">
-                                    <Link to="/OlvidoContraseña">
-                                        <a className="text-center">¿Olvidaste tu contraseña ?</a>
-                                    </Link>
-                                </div>
+                                <Link to="/OlvidoContraseña" className="text-center">
+                                    <a>¿Olvidaste tu contraseña ?</a>
+                                </Link>
                                 {/* <div className="col-auto">
                                     <Link to="/">
                                         <a>¿Quieres Cambiar tu contraseña ?</a>
@@ -78,7 +68,7 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             ) : (
                 <div className="contenedor">
                     <div className="jumbotron">
