@@ -20,6 +20,7 @@
     "@popperjs/core": "^2.10.2",
     "axios": "^0.22.0",
     "bootstrap": "^5.1.1",
+    "fs-web": "^1.0.1",
     "jquery": "^3.6.0",
     "md5": "^2.3.0",
     "popper.js": "^1.16.1",
