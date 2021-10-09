@@ -6,8 +6,8 @@ import '../layouts/css/login.css'
 const Login = () => {
     const history = useHistory();
     const location = useLocation();
-    const query = new URLSearchParams(location.search);    
-    const abreviaturaEmpresa = query.get("abr");
+    //const query = new URLSearchParams(location.search);    
+    const abreviaturaEmpresa = new URLSearchParams(location.search).get("abr");
     const [datosUsuario, guardarDatosUsuario] = useState({
         usuario: '',
         contrasenia: '',
