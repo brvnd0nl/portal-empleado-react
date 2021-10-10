@@ -1,31 +1,49 @@
-import * as fs from 'fs-web';
-import React, {useCallback, useState} from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Link, useHistory, useLocation,  } from 'react-router-dom';
 import '../layouts/css/login.css'
 
-const Login = () => {
+const Login = props => {
     const history = useHistory();
     const location = useLocation();
     //const query = new URLSearchParams(location.search);    
-    const abreviaturaEmpresa = new URLSearchParams(location.search).get("abr");
-    const [datosUsuario, guardarDatosUsuario] = useState({
-        usuario: '',
-        contrasenia: '',
-        abreviaturaEmpresa: abreviaturaEmpresa != null && abreviaturaEmpresa != '' ? abreviaturaEmpresa : '',
-    });
-
-
+    var abreviaturaEmpresa = new URLSearchParams(location.search).get("abr");
+    const {datosUsuario, guardarDatosUsuario} = props;    
+    
     const guardarEstado = e => {
         guardarDatosUsuario({
             ...datosUsuario,
             [e.target.name] : e.target.value,
         });
     };
+    
+    const {usuario, contrasenia} = datosUsuario;
+
+    useEffect(() =>{   
+        debugger;
+        validarDatosCache();
+    },[]);
+
+    const validarDatosCache = () => {
+        const datos = localStorage.getItem("SS_objDatosUsuario");
+        if(datos != null){
+            if(!abreviaturaEmpresa && abreviaturaEmpresa === datosUsuario.abreviaturaEmpresa) abreviaturaEmpresa = datosUsuario.abreviaturaEmpresa;
+            history.push(`/Inicio?abr=${abreviaturaEmpresa}`);
+        }else{
+            if(abreviaturaEmpresa){
+                guardarDatosUsuario({
+                    ...datosUsuario,
+                    abreviaturaEmpresa,
+                });
+            }
+        }
+    };
 
     const handleOnClick = e => {
+        debugger;
         e.preventDefault();
-        console.log('datos ',usuario,' ',contraseña);
-        if(usuario.trim() !== '' && contraseña.trim() !== ''){
+        console.log('datos ',usuario,' ',contrasenia);
+        if(usuario.trim() !== '' && contrasenia.trim() !== ''){
+            localStorage.setItem("SS_objDatosUsuario", JSON.stringify(datosUsuario))
             history.push(`/Inicio?abr=${abreviaturaEmpresa}`);
         }else{
             alert('campos vacios. Ingrese sus credenciales');
@@ -35,7 +53,7 @@ const Login = () => {
     return (
         <>            
             {abreviaturaEmpresa != null ? (
-                <form className="contenedor" onSubmit={() => handleOnClick()}>
+                <form className="contenedor" onSubmit={e => handleOnClick(e)}>
                     <div className="fondoPantalla"> 
 
                     </div>

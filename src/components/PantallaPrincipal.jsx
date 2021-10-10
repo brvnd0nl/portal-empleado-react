@@ -1,10 +1,16 @@
 import React from 'react';
+import Header from './Header';
 
-const PantallaPrincipal = () => {
+const PantallaPrincipal = props => {
+    const {datosUsuario, guardarDatosUsuario} = props;
+    const {usuario, contrasenia} = datosUsuario;
     return (
-        <div className="container">
-            
-        </div>
+        <>
+            <Header />
+            <div className="container">
+                
+            </div>
+        </>
     );
 }
  
