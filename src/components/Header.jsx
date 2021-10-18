@@ -1,12 +1,18 @@
 import React from 'react';
 
 const Header = props => {
+    
+    const {mostrarMenu} = props;
+
     return (
         <>
-            <div>
-                <p>Esto es el header</p>
-                <p>Hola ASASAS</p>
-            </div>        
+	    {mostrarMenu ? 
+		(<div>
+		    <p>Esto es el header</p>
+		    <p>Hola ASASAS</p>
+		</div>) 
+	    : null}
+                    
         </>
     );
 }
