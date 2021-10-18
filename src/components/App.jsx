@@ -12,23 +12,9 @@ const App = () => {
         usuario: '',
         contrasenia: '',
         abreviaturaEmpresa: '',
-    });    
+    });
 
-    const {usuario} = datosUsuario; 
-
-    useEffect(() =>{
-        debugger;
-        try{
-            if(usuario == ''){
-                const datos = localStorage.getItem("SS_objDatosUsuario");
-                if(datos != null){
-                    guardarDatosUsuario(datos);
-                }
-            }
-        }catch (err){
-    
-        }
-    },[]);       
+    const {usuario} = datosUsuario;     
 
     return (
         <>
@@ -43,13 +29,16 @@ const App = () => {
                 <Route path="/OlvidoContraseña">
                     <OlvidoContraseña datosUsuario={datosUsuario} guardarDatosUsuario={guardarDatosUsuario} />
                 </Route>
-                <Route path="/Inicio" render={matchProps =>{
+		{/*<Route path="/Inicio" render={matchProps =>{
                     if(usuario === ''){
                         return (<Redirect to='/' />);
                     }else{
                         return (<PantallaPrincipal {...matchProps} datosUsuario={datosUsuario} guardarDatosUsuario={guardarDatosUsuario} />);
                     }
-                }} />
+                }} />*/}
+		<Route path="/Inicio">
+		    <PantallaPrincipal datosUsuario={datosUsuario} guardarDatosUsuario={guardarDatosUsuario} />
+		</Route>
                 <Route path="/">
                     <Login datosUsuario={datosUsuario} guardarDatosUsuario={guardarDatosUsuario} />
                 </Route>

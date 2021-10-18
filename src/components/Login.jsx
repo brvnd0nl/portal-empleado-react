@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import { Link, useHistory, useLocation,  } from 'react-router-dom';
+import {validarDatosCache} from '../actions/loginAction.js';
 import '../layouts/css/login.css'
 
 const Login = props => {
     const history = useHistory();
     const location = useLocation();
-    //const query = new URLSearchParams(location.search);    
     var abreviaturaEmpresa = new URLSearchParams(location.search).get("abr");
     const {datosUsuario, guardarDatosUsuario} = props;    
     
@@ -14,32 +14,18 @@ const Login = props => {
             ...datosUsuario,
             [e.target.name] : e.target.value,
         });
-    };
-    
+    };    
+
+    /*
+     * useEffect(() =>{   
+        validarDatosCache(abreviaturaEmpresa, datosUsuario, guardarDatosUsuario);
+    },[]);
+    */
+
+
     const {usuario, contrasenia} = datosUsuario;
 
-    useEffect(() =>{   
-        debugger;
-        validarDatosCache();
-    },[]);
-
-    const validarDatosCache = () => {
-        const datos = localStorage.getItem("SS_objDatosUsuario");
-        if(datos != null){
-            if(!abreviaturaEmpresa && abreviaturaEmpresa === datosUsuario.abreviaturaEmpresa) abreviaturaEmpresa = datosUsuario.abreviaturaEmpresa;
-            history.push(`/Inicio?abr=${abreviaturaEmpresa}`);
-        }else{
-            if(abreviaturaEmpresa){
-                guardarDatosUsuario({
-                    ...datosUsuario,
-                    abreviaturaEmpresa,
-                });
-            }
-        }
-    };
-
     const handleOnClick = e => {
-        debugger;
         e.preventDefault();
         console.log('datos ',usuario,' ',contrasenia);
         if(usuario.trim() !== '' && contrasenia.trim() !== ''){
